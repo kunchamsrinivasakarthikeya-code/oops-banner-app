@@ -1,53 +1,107 @@
-public class OopsBanner {
+public class OopsBanner  {
 
-    // O pattern
-    public static String[] getOPattern() {
-        return new String[] {
-            " *** ",
-            "*   *",
-            "*   *",
-            "*   *",
-            "*   *",
-            "*   *",
-            " *** "
-        };
+    // Inner class to map character with its pattern
+    static class CharacterPatternMap {
+        Character character;
+        String[] pattern;
+
+        public CharacterPatternMap(Character character, String[] pattern) {
+            this.character = character;
+            this.pattern = pattern;
+        }
+
+        public Character getCharacter() {
+            return character;
+        }
+
+        public String[] getPattern() {
+            return pattern;
+        }
     }
 
-    // P pattern
-    public static String[] getPPattern() {
-        return new String[] {
-            "**** ",
-            "*   *",
-            "*   *",
-            "**** ",
-            "*    ",
-            "*    ",
-            "*    "
+    // Create character-pattern mappings
+    public static CharacterPatternMap[] createCharacterPatternMaps() {
+
+        String[] oPattern = {
+                " *** ",
+                "*   *",
+                "*   *",
+                "*   *",
+                "*   *",
+                "*   *",
+                " *** "
         };
+
+        String[] pPattern = {
+                "**** ",
+                "*   *",
+                "*   *",
+                "**** ",
+                "*    ",
+                "*    ",
+                "*    "
+        };
+
+        String[] sPattern = {
+                " ****",
+                "*    ",
+                "*    ",
+                " *** ",
+                "    *",
+                "    *",
+                "**** "
+        };
+
+        String[] spacePattern = {
+                "     ",
+                "     ",
+                "     ",
+                "     ",
+                "     ",
+                "     ",
+                "     "
+        };
+
+        CharacterPatternMap[] characterPatternMap = new CharacterPatternMap[4];
+
+        characterPatternMap[0] = new CharacterPatternMap('O', oPattern);
+        characterPatternMap[1] = new CharacterPatternMap('P', pPattern);
+        characterPatternMap[2] = new CharacterPatternMap('S', sPattern);
+        characterPatternMap[3] = new CharacterPatternMap(' ', spacePattern);
+
+        return characterPatternMap;
     }
 
-    // S pattern
-    public static String[] getSPattern() {
-        return new String[] {
-            " ****",
-            "*    ",
-            "*    ",
-            " *** ",
-            "    *",
-            "    *",
-            "**** "
-        };
+    // Retrieve pattern for a character
+    public static String[] getCharacterPattern(char ch, CharacterPatternMap[] charMaps) {
+        for (CharacterPatternMap map : charMaps) {
+            if (map.getCharacter() == ch) {
+                return map.getPattern();
+            }
+        }
+        return null;
+    }
+
+    // Print banner message
+    public static void printMessage(String message, CharacterPatternMap[] charMaps) {
+
+        int height = 7;
+
+        for (int i = 0; i < height; i++) {
+            for (char ch : message.toCharArray()) {
+                String[] pattern = getCharacterPattern(ch, charMaps);
+                if (pattern != null) {
+                    System.out.print(pattern[i] + " ");
+                }
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
 
-        String[] oPattern1 = getOPattern();
-        String[] oPattern2 = getOPattern();
-        String[] pPattern = getPPattern();
-        String[] sPattern = getSPattern();
+        CharacterPatternMap[] charMaps = createCharacterPatternMaps();
 
-        for (int i = 0; i < oPattern1.length; i++) {
-            System.out.println(oPattern1[i] + "  " + oPattern2[i] + "  " + pPattern[i] + "  " + sPattern[i]);
-        }
+        printMessage("OOPS", charMaps);
     }
 }
